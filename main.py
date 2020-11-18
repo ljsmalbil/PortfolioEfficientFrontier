@@ -14,8 +14,8 @@ if __name__ == "__main__":
 
     return_portfolio = (w_a * r_a) + (w_b * r_b)
 
-
-    security_name = 'MSFT'
+    # Path to folder 
+    security_name = 'data/MSFT'
 
     returns = Returns(security_name=security_name)
 

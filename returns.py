@@ -10,7 +10,7 @@ import yfinance as yf
 from sklearn import linear_model
 
 class Returns:
-    def __init__(self, security_name, market_name = 'SPY'):
+    def __init__(self, security_name, market_name = 'data/SPY'):
         self.security_name = security_name
         self.market_name = market_name
 
