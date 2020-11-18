@@ -10,7 +10,6 @@ import yfinance as yf
 from sklearn import linear_model
 
 class Returns:
-
     def __init__(self, security_name, market_name = 'SPY'):
         self.security_name = security_name
         self.market_name = market_name
@@ -43,19 +42,28 @@ class Returns:
         covariance_xy = np.mean(covariance_xy)
         beta = covariance_xy / np.var(Y)
 
-        """
-        list_of_values = []
-
-        for i in range(len(X)):
-            element = (X[i] - np.mean(X)) * (Y[i] - np.mean(Y))
-            list_of_values.append(element)
-
-        summed = np.sum(list_of_values)
-
-        covariance = summed / (len(X) - 1)
-        beta = covariance / np.var(Y)
-        """
-
         return beta
+
+    def expected_return(self):
+
+        """
+        One of the terms in the CAPM model is the risk-free rate.
+        Here the latest 13-week US treasury bill interest rate is used as a proxy
+        :return:
+        """
+        # Retrieve beta for asset
+        returns = Returns(security_name=self.security_name)
+        beta = returns.beta()
+
+        # Retrieve the current RFR
+        risk_free_rate = yf.Ticker("^IRX")
+        risk_free_rate = risk_free_rate.history(period="today")
+        risk_free_rate = float(risk_free_rate['Close']) / 100
+
+        # N.B. This is a market return estimate
+        estimated_market_return = 0.071
+        asset_expected_return = risk_free_rate + (beta * (estimated_market_return - risk_free_rate))
+
+        return asset_expected_return
 
 
