@@ -1,6 +1,6 @@
 """
 Developed by L. Smalbil
-This is an object that builds the CAPM and computes the expected return for a given security
+
 """
 
 import pandas as pd
@@ -47,6 +47,27 @@ class Returns:
         beta = covariance_xy / np.var(Y)
 
         return beta
+
+    def market_return(self, n = 5):
+        """
+        N.B. Double check this one!
+
+        :param n: period
+
+        :return:
+        """
+        market = pd.read_csv(self.market_name + '.csv')
+        market = market['Close']
+        market = np.array(market)
+
+        # R = (P1-P0+Dp) / P0
+        market_return = (market[-1] - market[0]) / market[0]
+
+        #rm = [(1 + R) ^ (1 / n)] - 1
+        market_rate_of_return = ((1 + market_return)**(1 / n)) - 1
+
+        return market_rate_of_return
+
 
     def expected_return(self):
 
@@ -96,9 +117,6 @@ class Returns:
         plt.xlabel('Percentage Return')
         plt.ylabel('Frequency')
         plt.title('Returns for '+ self.security_name)
-
-
-
 
         return plt.show()
 
