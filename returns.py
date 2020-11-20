@@ -6,6 +6,8 @@ This is an object that builds the CAPM and computes the expected return for a gi
 import pandas as pd
 import numpy as np
 import yfinance as yf
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 from sklearn import linear_model
 
@@ -66,4 +68,18 @@ class Returns:
 
         return asset_expected_return
 
+    def scatter_returns(self, security_name = 'data/MSFT'):
+
+        returns = Returns(security_name=self.security_name)
+        data = returns.data_builder()
+
+        x = self.market_name
+        y = self.security_name
+
+        sns.scatterplot(data=data, x=x, y=y)
+        plt.title('Returns ' + self.security_name + ' and ' + self.market_name)
+        plt.plot([data[self.market_name].min(), data[self.market_name].max()], [0, 0], '--', linewidth=2, color="r")
+        plt.plot([0, 0], [data[self.security_name].min(), data[self.security_name].max()], '--', linewidth=2, color="r")
+
+        return plt.show()
 
