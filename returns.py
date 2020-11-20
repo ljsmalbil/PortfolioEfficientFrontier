@@ -48,7 +48,7 @@ class Returns:
 
         return beta
 
-    def market_return(self, n = 5):
+    def market_return(self, n = 5, D = 0):
         """
         N.B. Double check this one!
 
@@ -61,7 +61,7 @@ class Returns:
         market = np.array(market)
 
         # R = (P1-P0+Dp) / P0
-        market_return = (market[-1] - market[0]) / market[0]
+        market_return = (market[-1] - (market[0] + D)) / market[0]
 
         #rm = [(1 + R) ^ (1 / n)] - 1
         market_rate_of_return = ((1 + market_return)**(1 / n)) - 1
