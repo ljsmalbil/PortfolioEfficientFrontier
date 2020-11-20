@@ -24,7 +24,9 @@ if __name__ == "__main__":
 
     print(returns.expected_return())
 
-    print(returns.scatter_returns())
+    returns.scatter_returns()
+
+    print(returns.histogram_returns())
 
 
 

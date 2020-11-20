@@ -9,6 +9,8 @@ import yfinance as yf
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from matplotlib.ticker import PercentFormatter
+
 from sklearn import linear_model
 
 class Returns:
@@ -68,7 +70,7 @@ class Returns:
 
         return asset_expected_return
 
-    def scatter_returns(self, security_name = 'data/MSFT'):
+    def scatter_returns(self):
 
         returns = Returns(security_name=self.security_name)
         data = returns.data_builder()
@@ -82,4 +84,23 @@ class Returns:
         plt.plot([0, 0], [data[self.security_name].min(), data[self.security_name].max()], '--', linewidth=2, color="r")
 
         return plt.show()
+
+    def histogram_returns(self):
+        returns = Returns(security_name=self.security_name)
+        data = returns.data_builder()
+        security = data[self.security_name]
+
+        weights = np.ones_like(security) / len(security)
+        plt.hist(security, bins=len(security), weights=weights)
+        plt.plot([0, 0], [0, 0.15], '--', linewidth=2, color="r")
+        plt.xlabel('Percentage Return')
+        plt.ylabel('Frequency')
+        plt.title('Returns for '+ self.security_name)
+
+
+
+
+        return plt.show()
+
+
 
